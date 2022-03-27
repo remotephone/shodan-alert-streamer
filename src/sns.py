@@ -1,10 +1,9 @@
 import json
 import os
-import logger
 
 import boto3
 
-from logger import logger
+from shodan_logger import logger
 
 try:
     ACCESS_KEY = os.environ["ACCESS_KEY"]

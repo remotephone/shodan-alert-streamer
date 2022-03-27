@@ -2,7 +2,7 @@ import os
 
 from shodan import Shodan
 
-from logger import logger
+from shodan_logger import logger
 from sns import send_sns
 
 # Setup the Shodan API connection
