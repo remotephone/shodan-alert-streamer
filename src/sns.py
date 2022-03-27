@@ -7,8 +7,8 @@ import boto3
 from logger import logger
 
 try:
-    ACCESS_KEY = os.getenv("ACCESS_KEY")
-    SECRET_KEY = os.getenv("SECRET_KEY")
+    ACCESS_KEY = os.environ["ACCESS_KEY"]
+    SECRET_KEY = os.environ["SECRET_KEY"]
 except:
     logger.error("Failed to get AWS Credentials")
 

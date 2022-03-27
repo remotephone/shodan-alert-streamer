@@ -8,7 +8,7 @@ from sns import send_sns
 # Setup the Shodan API connection
 try:
     logger.error("Connecting to Shodan API....")
-    api = Shodan(os.getenv("SHODAN_API_KEY"))
+    api = Shodan(os.environ["SHODAN_API_KEY"])
     logger.error("Connected to shodan! Streaming alerts!.")
 except:
     logger.error("Failed to retrieve Shodan API Key")
