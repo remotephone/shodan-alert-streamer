@@ -3,8 +3,10 @@
 You'll need
 - A Shodan API key
 - An AWS SNS enabled access key and secret key
-- A docker or place to run stacks
+- A docker swarm or place to run stacks
 
+- Update the credentials by setting the environmental variables in the docker-compose file. 
+- docker stack deploy it
 
 ## AWS Permissions
 
