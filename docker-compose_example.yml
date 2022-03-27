@@ -1,0 +1,14 @@
+version: '3.8'
+
+services:
+  shodanner:
+    image: ghcr.io/remotephone/shodan-alert-streamer:latest
+    environment:
+      SHODAN_API_KEY: "xxxxxx"
+      ACCESS_KEY: "xxxxxx"
+      SECRET_KEY: "xxxxx"
+    deploy:
+        restart_policy:
+            condition: any
+            max_attempts: 10
+            delay: 10s
