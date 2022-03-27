@@ -1,18 +1,22 @@
-import logging
 import os
 
 from shodan import Shodan
 
+from logger import logger
 from sns import send_sns
 
 # Setup the Shodan API connection
 try:
+    logger.error("Connecting to Shodan API....")
     api = Shodan(os.getenv("SHODAN_API_KEY"))
+    logger.error("Connected to shodan! Streaming alerts!.")
 except:
-    logging.error("Failed to retrieve Shodan API Key")
+    logger.error("Failed to retrieve Shodan API Key")
+    raise SystemExit
 
 # Subscribe to results for all networks:
 for alert in api.stream.alert():
+    logger.info("Got an alert!")
     ip = alert.get("ip_str", "Not Found")
     port = alert.get("port", "Not Found")
     hostnames = alert.get("hostnames", "Not Found")
@@ -27,8 +31,9 @@ for alert in api.stream.alert():
     Hostnames: {hostnames}
     Alert ID: {alert_id}
     """
-    logging.info(f"Sending SNS message - {message}")
+    logger.info(f"Sending SNS message - {message}")
     try:
         send_sns(message)
+        logger.info(f"SNS Notification sent succesfully")
     except Exception as e:
-        logging.error(f"Failed to post SNS - {e}")
+        logger.error(f"Failed to post SNS - {e}")
