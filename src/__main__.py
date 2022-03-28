@@ -8,9 +8,9 @@ from sns import send_sns
 # Setup the Shodan API connection
 def get_api():
     try:
-        logger.error("Connecting to Shodan API....")
+        logger.info("Connecting to Shodan API....")
         api = Shodan(os.environ["SHODAN_API_KEY"])
-        logger.error("Connected to shodan! Streaming alerts!.")
+        logger.info("Connected to shodan! Streaming alerts!.")
         return api
     except:
         logger.error("Failed to retrieve Shodan API Key")
@@ -42,7 +42,7 @@ def get_fields(alert):
 
 def main(api):
     try:
-        logger.info("Connected to Shodan API...")
+        logger.info("Connected to Shodan API! Waiting for alerts...")
         for alert in api.stream.alert():
             logger.info(f"Got an alert! - {alert}")
             message = get_fields(alert)
