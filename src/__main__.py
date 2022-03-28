@@ -47,9 +47,10 @@ def main(api):
             logger.info(f"Got an alert! - {alert}")
             message = get_fields(alert)
             logger.info(f"Sending SNS message - {message}")
+            send_alert(message)
     except Exception as e:
         logger.erorr(e)
-    send_alert(message)
+    
 
 if __name__ == "__main__":
     api = get_api()
