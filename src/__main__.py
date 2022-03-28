@@ -6,17 +6,24 @@ from shodan_logger import logger
 from sns import send_sns
 
 # Setup the Shodan API connection
-try:
-    logger.error("Connecting to Shodan API....")
-    api = Shodan(os.environ["SHODAN_API_KEY"])
-    logger.error("Connected to shodan! Streaming alerts!.")
-except:
-    logger.error("Failed to retrieve Shodan API Key")
-    raise SystemExit
+def get_api():
+    try:
+        logger.error("Connecting to Shodan API....")
+        api = Shodan(os.environ["SHODAN_API_KEY"])
+        logger.error("Connected to shodan! Streaming alerts!.")
+        return api
+    except:
+        logger.error("Failed to retrieve Shodan API Key")
+        raise SystemExit
 
-# Subscribe to results for all networks:
-for alert in api.stream.alert():
-    logger.info("Got an alert!")
+def send_alert(message):
+    try:
+        send_sns(message)
+        logger.info(f"SNS Notification sent succesfully")
+    except Exception as e:
+        logger.error(f"Failed to post SNS - {e}")
+
+def get_fields(alert):
     ip = alert.get("ip_str", "Not Found")
     port = alert.get("port", "Not Found")
     hostnames = alert.get("hostnames", "Not Found")
@@ -31,9 +38,19 @@ for alert in api.stream.alert():
     Hostnames: {hostnames}
     Alert ID: {alert_id}
     """
-    logger.info(f"Sending SNS message - {message}")
+    return message
+
+def main(api):
     try:
-        send_sns(message)
-        logger.info(f"SNS Notification sent succesfully")
+        logger.info("Connected to Shodan API...")
+        for alert in api.stream.alert():
+            logger.info(f"Got an alert! - {alert}")
+            message = get_fields(alert)
+            logger.info(f"Sending SNS message - {message}")
     except Exception as e:
-        logger.error(f"Failed to post SNS - {e}")
+        logger.erorr(e)
+    send_alert(message)
+
+if __name__ == "__main__":
+    api = get_api()
+    main(api)
