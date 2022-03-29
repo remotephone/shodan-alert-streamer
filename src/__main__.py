@@ -40,9 +40,15 @@ def get_fields(alert):
     """
     return message
 
+def get_alerts(api):
+    logger.info(f"Streaming alerts - \n")
+    for alert in api.alerts():
+        logger.info(f"  - {alert['id']} monitoring {alert.get('filters', 'None').get('ip', 'None')}")
+
 def main(api):
     try:
         logger.info("Connected to Shodan API! Waiting for alerts...")
+        get_alerts(api)
         for alert in api.stream.alert():
             logger.info(f"Got an alert! - {alert}")
             message = get_fields(alert)
