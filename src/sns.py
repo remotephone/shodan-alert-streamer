@@ -8,6 +8,7 @@ from shodan_logger import logger
 try:
     ACCESS_KEY = os.environ["ACCESS_KEY"]
     SECRET_KEY = os.environ["SECRET_KEY"]
+    SNS_TOPIC = os.environ["SNS_TOPIC"]
 except:
     logger.error("Failed to get AWS Credentials")
 
@@ -20,7 +21,7 @@ def send_sns(message):
     )
     try:
         response = client.publish(
-            TargetArn=arn,
+            TargetArn=SNS_TOPIC,
             Message=json.dumps({"default": json.dumps(message)}),
             MessageStructure="json",
         )

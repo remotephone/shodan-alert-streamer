@@ -7,6 +7,7 @@ services:
       SHODAN_API_KEY: "xxxxxx"
       ACCESS_KEY: "xxxxxx"
       SECRET_KEY: "xxxxx"
+      SNS_TOPIC: "xxxxx"
     deploy:
         restart_policy:
             condition: any
