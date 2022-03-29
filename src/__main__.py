@@ -41,9 +41,8 @@ def get_fields(alert):
     return message
 
 def get_alerts(api):
-    logger.info(f"Streaming alerts - \n")
     for alert in api.alerts():
-        logger.info(f"  - {alert['id']} monitoring {alert.get('filters', 'None').get('ip', 'None')}")
+        logger.info(f"Loaded Alert - {alert['id']} monitoring {alert.get('filters', 'None').get('ip', 'None')}")
 
 def main(api):
     try:
