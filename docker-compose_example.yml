@@ -13,3 +13,6 @@ services:
             condition: any
             max_attempts: 10
             delay: 10s
+        placement:
+          constraints:
+            - "node.role==worker"
